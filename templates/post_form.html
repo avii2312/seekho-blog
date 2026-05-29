@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% block title %}
+    {% if action == 'edit' %}Edit Post{% else %}Write a Post{% endif %} — Seekho Blog
+{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+<div class="col-lg-8">
+
+    <h2 class="page-title mb-4">
+        {% if action == 'edit' %}
+            <i class="bi bi-pencil-square me-2"></i>Edit Post
+        {% else %}
+            <i class="bi bi-pencil-square me-2"></i>Write a Post
+        {% endif %}
+    </h2>
+
+    <!--
+        This single template is used for BOTH create and edit.
+        The 'action' variable is passed from the route:
+            action='create' → form POSTs to /post/new
+            action='edit'   → form POSTs to /post/<id>/edit
+    -->
+    <form method="post" action="
+        {%- if action == 'edit' -%}
+            {{ url_for('posts.post_edit', post_id=post.id) }}
+        {%- else -%}
+            {{ url_for('posts.post_new') }}
+        {%- endif -%}
+    ">
+
+        <!-- Title -->
+        <div class="mb-3">
+            <label for="title" class="form-label">Title <span class="text-danger">*</span></label>
+            <input
+                type="text"
+                class="form-control seekho-input"
+                id="title"
+                name="title"
+                placeholder="Give your post a clear title"
+                value="{{ title if title is defined else (post.title if post is defined else '') }}"
+                required
+            />
+        </div>
+
+        <!-- Category -->
+        <div class="mb-3">
+            <label for="category_id" class="form-label">Category <span class="text-danger">*</span></label>
+            <select class="form-select seekho-input" id="category_id" name="category_id" required>
+                <option value="">— Choose a category —</option>
+                {% for cat in categories %}
+                <option value="{{ cat.id }}"
+                    {%- if category_id is defined and category_id == cat.id | string %} selected
+                    {%- elif post is defined and post.category_id == cat.id %} selected
+                    {%- endif %}>
+                    {{ cat.name }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Body -->
+        <div class="mb-3">
+            <label for="body" class="form-label">
+                Content <span class="text-danger">*</span>
+                <small class="text-muted ms-2">Plain text — press Enter for a new paragraph</small>
+            </label>
+            <textarea
+                class="form-control seekho-textarea"
+                id="body"
+                name="body"
+                rows="14"
+                placeholder="Write your post here…"
+                required
+            >{{ body if body is defined else (post.body if post is defined else '') }}</textarea>
+        </div>
+
+        <!-- Status (Tier 2 — Draft / Published) -->
+        <div class="mb-4">
+            <label class="form-label">Status</label>
+            <div>
+                <div class="form-check form-check-inline">
+                    <input
+                        class="form-check-input"
+                        type="radio"
+                        name="status"
+                        id="status_published"
+                        value="published"
+                        {% if post is not defined or post.status == 'published' %} checked {% endif %}
+                    />
+                    <label class="form-check-label" for="status_published">Published</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input
+                        class="form-check-input"
+                        type="radio"
+                        name="status"
+                        id="status_draft"
+                        value="draft"
+                        {% if post is defined and post.status == 'draft' %} checked {% endif %}
+                    />
+                    <label class="form-check-label" for="status_draft">
+                        Draft <small class="text-muted">(only you can see it)</small>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-seekho">
+                {% if action == 'edit' %}
+                    <i class="bi bi-check-lg"></i> Save Changes
+                {% else %}
+                    <i class="bi bi-send"></i> Publish Post
+                {% endif %}
+            </button>
+
+            <a href="{{ url_for('posts.dashboard') }}" class="btn btn-outline-secondary">
+                Cancel
+            </a>
+        </div>
+
+    </form>
+</div>
+</div>
+
+{% endblock %}
