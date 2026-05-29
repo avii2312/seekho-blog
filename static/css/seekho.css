@@ -1,0 +1,319 @@
+/* =============================================================
+   seekho.css — Seekho Community Blog custom styles
+   VISANET Software Pvt. Ltd. · VSN-INT-SEEKHO-BLOG
+   ============================================================= */
+
+/* ---------------------------------------------------------------
+   CSS Variables — change these to retheme the whole site
+--------------------------------------------------------------- */
+:root {
+    --seekho-bg:          #0f0f1a;
+    --seekho-surface:     #1a1a2e;
+    --seekho-surface-2:   #16213e;
+    --seekho-border:      #2a2a4a;
+    --seekho-accent:      #7c3aed;       /* Seekho violet */
+    --seekho-accent-hover:#6d28d9;
+    --seekho-accent-light:#a78bfa;
+    --seekho-text:        #e2e8f0;
+    --seekho-text-muted:  #94a3b8;
+    --seekho-danger:      #ef4444;
+    --radius:             10px;
+}
+
+/* ---------------------------------------------------------------
+   Base
+--------------------------------------------------------------- */
+body {
+    background-color: var(--seekho-bg);
+    color: var(--seekho-text);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    min-height: 100vh;
+}
+
+a {
+    color: var(--seekho-accent-light);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--seekho-accent);
+}
+
+/* ---------------------------------------------------------------
+   Navigation
+--------------------------------------------------------------- */
+.seekho-navbar {
+    background-color: var(--seekho-surface);
+    border-bottom: 1px solid var(--seekho-border);
+    padding: 0.75rem 0;
+}
+
+.seekho-logo-accent {
+    color: var(--seekho-accent-light);
+    font-size: 1.3rem;
+    letter-spacing: 0.5px;
+}
+
+.seekho-logo-sub {
+    color: var(--seekho-text-muted);
+    font-size: 1rem;
+    margin-left: 4px;
+}
+
+.seekho-search {
+    background-color: var(--seekho-bg);
+    border-color: var(--seekho-border);
+    color: var(--seekho-text);
+}
+
+.seekho-search:focus {
+    background-color: var(--seekho-bg);
+    border-color: var(--seekho-accent);
+    color: var(--seekho-text);
+    box-shadow: 0 0 0 0.2rem rgba(124, 58, 237, 0.25);
+}
+
+.seekho-search::placeholder {
+    color: var(--seekho-text-muted);
+}
+
+/* Dropdown */
+.seekho-dropdown {
+    background-color: var(--seekho-surface-2);
+    border: 1px solid var(--seekho-border);
+}
+
+.seekho-dropdown .dropdown-item {
+    color: var(--seekho-text);
+}
+
+.seekho-dropdown .dropdown-item:hover {
+    background-color: var(--seekho-accent);
+    color: #fff;
+}
+
+.seekho-dropdown .dropdown-divider {
+    border-color: var(--seekho-border);
+}
+
+/* ---------------------------------------------------------------
+   Buttons
+--------------------------------------------------------------- */
+.btn-seekho {
+    background-color: var(--seekho-accent);
+    border-color: var(--seekho-accent);
+    color: #fff;
+    border-radius: var(--radius);
+    font-weight: 500;
+}
+
+.btn-seekho:hover,
+.btn-seekho:focus {
+    background-color: var(--seekho-accent-hover);
+    border-color: var(--seekho-accent-hover);
+    color: #fff;
+}
+
+/* ---------------------------------------------------------------
+   Cards (post list)
+--------------------------------------------------------------- */
+.seekho-card {
+    background-color: var(--seekho-surface);
+    border: 1px solid var(--seekho-border);
+    border-radius: var(--radius);
+    transition: border-color 0.2s, transform 0.15s;
+}
+
+.seekho-card:hover {
+    border-color: var(--seekho-accent);
+    transform: translateY(-2px);
+}
+
+.post-title-link {
+    color: var(--seekho-text);
+    font-weight: 600;
+}
+
+.post-title-link:hover {
+    color: var(--seekho-accent-light);
+}
+
+.post-meta {
+    font-size: 0.82rem;
+    color: var(--seekho-text-muted);
+}
+
+/* ---------------------------------------------------------------
+   Badges
+--------------------------------------------------------------- */
+.seekho-badge {
+    background-color: rgba(124, 58, 237, 0.2);
+    color: var(--seekho-accent-light);
+    border: 1px solid rgba(124, 58, 237, 0.4);
+    font-size: 0.78rem;
+    padding: 0.3em 0.7em;
+    border-radius: 999px;
+}
+
+.seekho-badge:hover {
+    background-color: var(--seekho-accent);
+    color: #fff;
+}
+
+.seekho-badge-lg {
+    background-color: rgba(124, 58, 237, 0.2);
+    color: var(--seekho-accent-light);
+    border: 1px solid rgba(124, 58, 237, 0.4);
+    font-size: 0.88rem;
+    padding: 0.4em 0.9em;
+    border-radius: 999px;
+}
+
+/* ---------------------------------------------------------------
+   Forms
+--------------------------------------------------------------- */
+.seekho-input,
+.seekho-textarea {
+    background-color: var(--seekho-surface);
+    border: 1px solid var(--seekho-border);
+    color: var(--seekho-text);
+    border-radius: var(--radius);
+}
+
+.seekho-input:focus,
+.seekho-textarea:focus {
+    background-color: var(--seekho-surface);
+    border-color: var(--seekho-accent);
+    color: var(--seekho-text);
+    box-shadow: 0 0 0 0.2rem rgba(124, 58, 237, 0.25);
+}
+
+.seekho-input::placeholder,
+.seekho-textarea::placeholder {
+    color: var(--seekho-text-muted);
+}
+
+/* Select also needs dark styling */
+.form-select.seekho-input {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%2394a3b8' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+}
+
+/* ---------------------------------------------------------------
+   Auth pages (login / register)
+--------------------------------------------------------------- */
+.seekho-auth-card {
+    background-color: var(--seekho-surface);
+    border: 1px solid var(--seekho-border);
+    border-radius: var(--radius);
+    margin-top: 2rem;
+}
+
+/* ---------------------------------------------------------------
+   Single post
+--------------------------------------------------------------- */
+.page-title {
+    color: var(--seekho-text);
+    font-weight: 700;
+}
+
+.post-detail-title {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--seekho-text);
+}
+
+.post-body {
+    font-size: 1.05rem;
+    line-height: 1.9;
+    color: #cbd5e1;
+}
+
+.seekho-divider {
+    border-color: var(--seekho-border);
+}
+
+/* ---------------------------------------------------------------
+   Comments
+--------------------------------------------------------------- */
+.seekho-comment {
+    background-color: var(--seekho-surface);
+    border: 1px solid var(--seekho-border);
+    border-radius: var(--radius);
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* ---------------------------------------------------------------
+   Dashboard table
+--------------------------------------------------------------- */
+.seekho-table {
+    color: var(--seekho-text);
+    border-color: var(--seekho-border);
+}
+
+.seekho-table thead {
+    background-color: var(--seekho-surface-2);
+    border-color: var(--seekho-border);
+}
+
+.seekho-table td,
+.seekho-table th {
+    border-color: var(--seekho-border);
+    vertical-align: middle;
+}
+
+.seekho-table tbody tr:hover {
+    background-color: var(--seekho-surface);
+}
+
+/* ---------------------------------------------------------------
+   Admin page
+--------------------------------------------------------------- */
+.seekho-admin-card {
+    background-color: var(--seekho-surface);
+    border: 1px solid var(--seekho-border);
+    border-radius: var(--radius);
+}
+
+.seekho-admin-row {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--seekho-border);
+}
+
+.seekho-admin-row:last-child {
+    border-bottom: none;
+}
+
+.seekho-rename-form {
+    background-color: var(--seekho-bg);
+    border-radius: var(--radius);
+    border: 1px solid var(--seekho-border);
+    margin-top: 0.5rem;
+}
+
+/* ---------------------------------------------------------------
+   Empty states
+--------------------------------------------------------------- */
+.seekho-empty-state {
+    color: var(--seekho-text-muted);
+}
+
+.seekho-empty-state i {
+    color: var(--seekho-border);
+}
+
+/* ---------------------------------------------------------------
+   Footer
+--------------------------------------------------------------- */
+.seekho-footer {
+    background-color: var(--seekho-surface);
+    border-top: 1px solid var(--seekho-border);
+    color: var(--seekho-text-muted);
+    font-size: 0.88rem;
+}
+
+.footer-brand {
+    color: var(--seekho-accent-light);
+    font-weight: 600;
+}
