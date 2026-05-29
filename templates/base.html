@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Seekho Community Blog{% endblock %}</title>
+
+    <!-- Bootstrap 5 via CDN -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    />
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <!-- Your custom styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/seekho.css') }}" />
+
+    {% block head %}{% endblock %}
+</head>
+
+<body>
+
+<!-- ============================================================
+     NAVIGATION BAR
+     The same nav appears on every page — it is defined here once.
+============================================================ -->
+<nav class="navbar navbar-expand-lg navbar-dark seekho-navbar">
+    <div class="container">
+
+        <!-- Logo / Brand -->
+        <a class="navbar-brand fw-bold" href="{{ url_for('posts.index') }}">
+            <span class="seekho-logo-accent">Seekho</span>
+            <span class="seekho-logo-sub">Blog</span>
+        </a>
+
+        <!-- Hamburger toggle for mobile -->
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarMain"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarMain">
+
+            <!-- Left side: Categories dropdown + Search -->
+            <ul class="navbar-nav me-auto">
+
+                <!-- Categories dropdown — populated from context_processor in app.py -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                        <i class="bi bi-grid"></i> Categories
+                    </a>
+                    <ul class="dropdown-menu seekho-dropdown">
+                        {% for cat in all_categories %}
+                        <li>
+                            <a class="dropdown-item" href="{{ url_for('posts.category', slug=cat.slug) }}">
+                                {{ cat.name }}
+                            </a>
+                        </li>
+                        {% else %}
+                        <li><span class="dropdown-item text-muted">No categories yet</span></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+
+            </ul>
+
+            <!-- Search form -->
+            <form class="d-flex me-3" action="{{ url_for('posts.search') }}" method="get">
+                <div class="input-group">
+                    <input
+                        class="form-control seekho-search"
+                        type="search"
+                        name="q"
+                        placeholder="Search posts…"
+                        value="{{ request.args.get('q', '') }}"
+                    />
+                    <button class="btn btn-outline-light" type="submit">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </div>
+            </form>
+
+            <!-- Right side: Login/Register OR user menu -->
+            <ul class="navbar-nav">
+                {% if session.user_id %}
+
+                    <!-- Admin link (only visible to admin) -->
+                    {% if session.is_admin %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('posts.admin_categories') }}">
+                            <i class="bi bi-shield-check"></i> Admin
+                        </a>
+                    </li>
+                    {% endif %}
+
+                    <!-- Write a post -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('posts.post_new') }}">
+                            <i class="bi bi-pencil-square"></i> Write
+                        </a>
+                    </li>
+
+                    <!-- Dashboard + Logout -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle"></i> {{ session.username }}
+                        </a>
+                        <ul class="dropdown-menu seekho-dropdown dropdown-menu-end">
+                            <li>
+                                <a class="dropdown-item" href="{{ url_for('posts.dashboard') }}">
+                                    <i class="bi bi-layout-text-sidebar"></i> My Posts
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider" /></li>
+                            <li>
+                                <a class="dropdown-item text-danger" href="{{ url_for('auth.logout') }}">
+                                    <i class="bi bi-box-arrow-right"></i> Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('auth.login') }}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-seekho ms-2" href="{{ url_for('auth.register') }}">
+                            Register
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container -->
+</nav>
+
+
+<!-- ============================================================
+     FLASH MESSAGES
+     Flask's flash() system sends one-time messages.
+     They appear here on the next page load and then disappear.
+============================================================ -->
+<div class="container mt-3">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</div>
+
+
+<!-- ============================================================
+     MAIN CONTENT
+     Each page template fills in this block.
+============================================================ -->
+<main class="container my-4">
+    {% block content %}{% endblock %}
+</main>
+
+
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+<footer class="seekho-footer mt-5 py-4">
+    <div class="container text-center">
+        <p class="mb-1">
+            <a href="{{ url_for('posts.index') }}" class="footer-brand">Seekho Blog</a>
+            &nbsp;·&nbsp;
+            A VISANET Software community project
+        </p>
+        <small class="text-muted">Built with Flask &amp; Bootstrap 5</small>
+    </div>
+</footer>
+
+
+<!-- Bootstrap 5 JS via CDN -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Your custom JS -->
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+{% block scripts %}{% endblock %}
+</body>
+</html>
