@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% block title %}Register — Seekho Blog{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+<div class="col-md-6 col-lg-5">
+
+    <div class="seekho-auth-card p-4 p-md-5">
+        <h2 class="text-center mb-4">Create Account</h2>
+
+        <form method="post" action="{{ url_for('auth.register') }}">
+
+            <div class="mb-3">
+                <label for="full_name" class="form-label">Full Name</label>
+                <input
+                    type="text"
+                    class="form-control seekho-input"
+                    id="full_name"
+                    name="full_name"
+                    value="{{ full_name if full_name is defined else '' }}"
+                    placeholder="e.g. Priya Sharma"
+                    required
+                    autofocus
+                />
+            </div>
+
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input
+                    type="text"
+                    class="form-control seekho-input"
+                    id="username"
+                    name="username"
+                    value="{{ username if username is defined else '' }}"
+                    placeholder="lowercase, no spaces"
+                    required
+                />
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input
+                    type="email"
+                    class="form-control seekho-input"
+                    id="email"
+                    name="email"
+                    value="{{ email if email is defined else '' }}"
+                    required
+                />
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input
+                    type="password"
+                    class="form-control seekho-input"
+                    id="password"
+                    name="password"
+                    placeholder="At least 6 characters"
+                    required
+                />
+            </div>
+
+            <div class="mb-4">
+                <label for="password_confirm" class="form-label">Confirm Password</label>
+                <input
+                    type="password"
+                    class="form-control seekho-input"
+                    id="password_confirm"
+                    name="password_confirm"
+                    required
+                />
+            </div>
+
+            <button type="submit" class="btn btn-seekho w-100">Create Account</button>
+
+        </form>
+
+        <p class="text-center mt-4 mb-0 text-muted">
+            Already have an account?
+            <a href="{{ url_for('auth.login') }}">Log in</a>
+        </p>
+    </div>
+
+</div>
+</div>
+{% endblock %}
