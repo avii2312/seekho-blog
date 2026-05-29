@@ -1,0 +1,38 @@
+# =============================================================
+# .gitignore — Seekho Blog Module
+# Files listed here are NOT uploaded to GitHub
+# =============================================================
+
+# ---- NEVER commit these ----
+config.py           # Contains your DB password and secret key
+.env                # Environment variables (if used)
+
+# ---- Python ----
+venv/
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+
+# ---- OS files ----
+.DS_Store           # Mac
+Thumbs.db           # Windows
+desktop.ini
+
+# ---- IDE files ----
+.vscode/settings.json
+.idea/
+*.suo
+*.user
+
+# ---- Uploaded files (Tier 3) ----
+static/images/uploads/
+
+# ---- Logs ----
+*.log
+flask_session/
